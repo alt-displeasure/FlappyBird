@@ -8,6 +8,11 @@ require 'Pipe'
 
 require 'PipePair'
 
+require 'StateMachine'
+require 'states/BaseState'
+require 'states/PlayState'
+require 'states/TitleState'
+
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
@@ -40,6 +45,13 @@ function love.load()
 
     love.window.setTitle('Flappy Bird')
 
+    smallFont = love.grphics.newFont('font.ttf', 8)
+    mediumFont = love.grphics.newFont('flappy.ttf', 14)
+    flappyFont = love.grphics.newFont('flappy.ttf', 28)
+    hugeFont = love.grphics.newFont('flappy.ttf', 56)
+
+    love.graphics.setFont(flappyFont)
+
     math.randomseed(os.time())
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT,{
@@ -47,6 +59,8 @@ function love.load()
         fullscreen = false,
         resizable = true
     })
+
+    
 
     love.keyboard.keysPressed = {}
 end
