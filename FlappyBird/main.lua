@@ -10,6 +10,7 @@ require 'PipePair'
 
 require 'StateMachine'
 require 'states/BaseState'
+require 'states/CountdownState'
 require 'states/PlayState'
 require 'states/ScoreState'
 require 'states/TitleState'
@@ -31,8 +32,6 @@ local GROUND_SCROLL_SPEED = 60
 
 local BACKGROUND_LOOPING_POINT = 413
 
-local scrolling = true
-
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -44,6 +43,17 @@ function love.load()
     hugeFont = love.graphics.newFont('flappy.ttf', 56)
 
     love.graphics.setFont(flappyFont)
+
+    sounds = {
+        ['jump'] = love.audio.newSource('jump.wav', 'static'),
+        ['hurt'] = love.audio.newSource('hurt.wav', 'static'),
+        ['explosion'] = love.audio.newSource('explosion.wav', 'static'),
+        ['score'] = love.audio.newSource('score.wav', 'static'),
+        ['music'] = love.audio.newSource('marios_way.mp3', 'static'),
+    }
+
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
 
     math.randomseed(os.time())
 
@@ -57,6 +67,7 @@ function love.load()
         ['title'] = function() return TitleState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
+        ['countdown'] = function() return CountdownState() end,
     }
     gStateMachine:change('title')
 
