@@ -4,7 +4,6 @@ function StateMachine:init(states)
     self.empty = {
         render = function() end,
         update = function() end,
-        render = function() end,
         exit = function() end,
     }
     self.states = states or {}
